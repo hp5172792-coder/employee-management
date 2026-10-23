@@ -1,3 +1,4 @@
 <?php
 echo "Welcome to Github - employee-emails";
-echo "Hello World"
+echo "Hello World";
+?>
