@@ -1,0 +1,28 @@
+
+name: CD Practice - Build Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - ci/php-check
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare release package
+        run: |
+          mkdir release
+          cp index.php release/
+          cp README.md release/
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: employee-management-release
+          path: release/
