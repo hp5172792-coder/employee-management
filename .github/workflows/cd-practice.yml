@@ -1,0 +1,39 @@
+name: CD Practice - Build Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - ci/php-check
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare release package
+        run: |
+          mkdir release
+          cp index.php release/
+          cp README.md release/
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: employee-management-release
+          path: release/
+
+      - name: Simulate deployment
+        run: |
+          mkdir deployed-app
+          cp -r release/. deployed-app/
+          echo "Deployment simulation completed."
+
+      - name: Verify deployed files
+        run: |
+          test -f deployed-app/index.php
+          test -f deployed-app/README.md
+          echo "Verified: index.php and README.md exist in deployed-app."
